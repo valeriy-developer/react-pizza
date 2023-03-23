@@ -1,0 +1,43 @@
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: vw(9);
+
+  @media (max-width: $br1) {
+    justify-content: center;
+    gap: 8px;
+  }
+}
+
+.filter__radio[type='radio'] {
+  display: none;
+}
+
+.filter__radio[type='radio']:checked {
+  + .filter__text {
+    background-color: #282828;
+    color: var(--white);
+  }
+}
+
+.filter__text {
+  display: block;
+  background-color: #f9f9f9;
+  padding: vw(14) vw(24);
+  border-radius: 30px;
+  font-family: 'Montserrat Bold';
+  font-weight: 700;
+  font-size: vw(16);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #dbdbdb;
+  }
+
+  @media (max-width: $br1) {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
