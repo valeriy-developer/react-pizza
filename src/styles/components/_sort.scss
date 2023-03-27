@@ -65,11 +65,7 @@
 }
 
 .sort__popup {
-  &--active {
-    display: flex;
-  }
-
-  display: none;
+  display: flex;
   flex-direction: column;
   position: absolute;
   top: vw(50);
@@ -88,21 +84,7 @@
   }
 }
 
-.sort__radio[type='radio'] {
-  display: none;
-}
-
-.sort__radio[type='radio']:checked {
-  + .sort__text {
-    background-color: rgba(254, 95, 30, 0.05);
-    color: #fe5f1e;
-    font-family: 'Montserrat Bold';
-    font-weight: 700;
-    width: 100%;
-  }
-}
-
-.sort__text {
+.sort__item {
   display: block;
   cursor: pointer;
   font-family: 'Montserrat';
@@ -121,5 +103,13 @@
 
   &:hover {
     background-color: rgba(254, 95, 30, 0.05);
+  }
+
+  &--active {
+    background-color: rgba(254, 95, 30, 0.05);
+    color: #fe5f1e;
+    font-family: 'Montserrat Bold';
+    font-weight: 700;
+    width: 100%;
   }
 }

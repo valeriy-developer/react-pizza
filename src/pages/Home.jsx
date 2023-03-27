@@ -4,15 +4,18 @@ import { useEffect, useState } from 'react'
 import Filter from '../components/Filter'
 import Item from '../components/Item'
 import Sort from '../components/Sort'
+import SkeletonItem from '../components/SkeletonItem'
 
 const Home = () => {
   const [items, setItems] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const collectionRef = collection(database, 'items')
     getDocs(collectionRef).then(res => {
       const data = res.docs.map(doc => doc.data())
       setItems(data)
+      setIsLoading(false)
     })
   }, [])
 
@@ -32,9 +35,11 @@ const Home = () => {
           <div className="home-1__content">
             <h2 className="home-1__title">Усі піци</h2>
             <div className="grid home-1__items-wrapper">
-              {items.map(el => {
-                return <Item key={el.id} {...el} />
-              })}
+              {isLoading
+                ? [...new Array(11)].map((_, idx) => <SkeletonItem key={idx} />)
+                : items.map(el => {
+                    return <Item key={el.id} {...el} />
+                  })}
             </div>
           </div>
         </div>
