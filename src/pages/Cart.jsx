@@ -5,6 +5,7 @@ import IconRemove from '../components/icons/IconRemove'
 import IconArrowLeft from '../components/icons/IconArrowLeft'
 import IconBlackCart from '../components/icons/IconBlackCart'
 import Button from '../components/Button'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
   return (
@@ -89,11 +90,9 @@ const Cart = () => {
           </p>
         </div>
         <div className="cart__btns-wrapper">
-          <Button
-            icon={<IconArrowLeft />}
-            text={'Повернутись назад'}
-            disabled
-          />
+          <Link to="/" className="cart__back-btn">
+            <Button icon={<IconArrowLeft />} text={'Повернутись назад'} />
+          </Link>
           <Button text={'Оплатити зараз'} />
         </div>
       </div>

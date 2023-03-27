@@ -74,6 +74,7 @@
   display: flex;
   align-items: center;
   column-gap: vw(7);
+  transition: all 0.2s ease;
 
   @media (max-width: $br1) {
     font-size: 14px;
@@ -85,9 +86,21 @@
     width: vw(20);
     height: vw(20);
 
+    path {
+      transition: all 0.2s ease;
+    }
+
     @media (max-width: $br1) {
       width: 14px;
       height: 14px;
+    }
+  }
+
+  &:hover {
+    color: #414141;
+
+    path {
+      stroke: #414141;
     }
   }
 }
@@ -208,6 +221,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: all 0.2s ease;
 
   @media (max-width: $br1) {
     height: 18px;
@@ -222,6 +236,14 @@
     @media (max-width: $br1) {
       width: 8px;
       height: 8px;
+    }
+  }
+
+  &:hover {
+    background-color: #fe5f1e;
+
+    path {
+      fill: var(--white);
     }
   }
 }
@@ -260,6 +282,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: all 0.2s ease;
 
   @media (max-width: $br1) {
     height: 22px;
@@ -274,6 +297,14 @@
     @media (max-width: $br1) {
       width: 8px;
       height: 8px;
+    }
+  }
+
+  &:hover {
+    background-color: #d7d7d7;
+
+    path {
+      fill: var(--white);
     }
   }
 }
@@ -325,5 +356,27 @@
     margin-top: 34px;
     flex-direction: column-reverse;
     row-gap: 16px;
+  }
+}
+
+.cart__back-btn {
+  button {
+    background-color: var(--white);
+    color: #cacaca;
+    border: 1px solid #d3d3d3;
+    transition: all 0.2s ease;
+
+    path {
+      transition: all 0.2s ease;
+    }
+
+    &:hover {
+      background-color: #282828;
+      color: var(--white);
+
+      path {
+        stroke: var(--white);
+      }
+    }
   }
 }
