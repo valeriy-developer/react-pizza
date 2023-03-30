@@ -17,6 +17,9 @@
     height: 460px;
     object-fit: contain;
   }
+  @media (max-width: $br4) {
+    height: fit-content;
+  }
 }
 
 .item__content {
@@ -128,6 +131,7 @@
   text-transform: lowercase;
 
   @media (max-width: $br1) {
+    font-size: 14px;
     padding: 10px 0px;
   }
 

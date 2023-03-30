@@ -1,20 +1,31 @@
 import { useState } from 'react'
 import IconArrowUp from './icons/IconArrowUp'
-import { v4 as uuidv4 } from 'uuid'
 import IconArrowDown from './icons/IconArrowDown'
 
-const Sort = () => {
+const Sort = ({ sortValue, onChangeSort }) => {
   const [popupOpened, setPopupOpened] = useState(false)
-  const [activeItem, setActiveItem] = useState(0)
 
   const openPopup = () => {
     setPopupOpened(!popupOpened)
   }
 
-  const sortItems = ['ціною', 'алфавітом', 'популярністю']
+  const sortItems = [
+    {
+      name: 'ціною',
+      sort: 'price',
+    },
+    {
+      name: 'алфавітом',
+      sort: 'title',
+    },
+    {
+      name: 'популярністю',
+      sort: 'rating',
+    },
+  ]
 
   const selectActiveItems = id => {
-    setActiveItem(id)
+    onChangeSort(id)
     setPopupOpened(false)
   }
   return (
@@ -26,23 +37,23 @@ const Sort = () => {
           </span>
           <p className="sort__show-text">
             Сортування за:
-            <span className="sort__name">{sortItems[activeItem]}</span>
+            <span className="sort__name">{sortValue.name}</span>
           </p>
         </button>
         {popupOpened && (
           <ul className="sort__popup">
-            {sortItems.map((item, idx) => {
+            {sortItems.map((obj, idx) => {
               return (
                 <li
-                  key={uuidv4()}
+                  key={idx}
                   className={
-                    activeItem === idx
+                    sortValue.sort === obj.sort
                       ? 'sort__item sort__item--active'
                       : 'sort__item'
                   }
-                  onClick={() => selectActiveItems(idx)}
+                  onClick={() => selectActiveItems(obj)}
                 >
-                  <p className="sort__text">{item}</p>
+                  <p className="sort__text">{obj.name}</p>
                 </li>
               )
             })}

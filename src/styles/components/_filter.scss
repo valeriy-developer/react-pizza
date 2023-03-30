@@ -10,18 +10,7 @@
   }
 }
 
-.filter__radio[type='radio'] {
-  display: none;
-}
-
-.filter__radio[type='radio']:checked {
-  + .filter__text {
-    background-color: #282828;
-    color: var(--white);
-  }
-}
-
-.filter__text {
+.filter__li {
   display: block;
   background-color: #f9f9f9;
   padding: vw(14) vw(24);
@@ -31,6 +20,15 @@
   font-size: vw(16);
   cursor: pointer;
   transition: background-color 0.2s ease;
+
+  &--active {
+    background-color: #282828;
+    color: var(--white);
+
+    &:hover {
+      background-color: #282828 !important;
+    }
+  }
 
   &:hover {
     background-color: #dbdbdb;
