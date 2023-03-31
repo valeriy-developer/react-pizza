@@ -1,12 +1,19 @@
 import { database } from '../scripts/firebaseConfig'
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  where,
+  limit,
+} from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import Filter from '../components/Filter'
 import Item from '../components/Item'
 import Sort from '../components/Sort'
 import SkeletonItem from '../components/SkeletonItem'
 
-const Home = () => {
+const Home = ({ searchValue, setSearchValue }) => {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [sortItems, setSortItems] = useState({
@@ -21,11 +28,12 @@ const Home = () => {
     setIsLoading(true)
     const q =
       activeFilter === 0
-        ? query(collectionRef, orderBy(sortItems.sort))
+        ? query(collectionRef, orderBy(sortItems.sort), limit(5))
         : query(
             collectionRef,
             where('category', '==', activeFilter),
-            orderBy(sortItems.sort)
+            orderBy(sortItems.sort),
+            limit(5)
           )
 
     getDocs(q).then(res => {
@@ -35,7 +43,7 @@ const Home = () => {
     })
 
     window.scrollTo(0, 0)
-  }, [activeFilter, sortItems])
+  }, [activeFilter, sortItems, searchValue])
 
   return (
     <>
@@ -58,9 +66,21 @@ const Home = () => {
             <div className="grid home-1__items-wrapper">
               {isLoading
                 ? [...new Array(11)].map((_, idx) => <SkeletonItem key={idx} />)
-                : items.map(el => {
-                    return <Item key={el.id} {...el} />
-                  })}
+                : items
+                    .filter(obj => {
+                      if (
+                        obj.title
+                          .toLowerCase()
+                          .includes(searchValue.toLowerCase())
+                      ) {
+                        return true
+                      }
+                      return false
+                    })
+
+                    .map(el => {
+                      return <Item key={el.id} {...el} />
+                    })}
             </div>
           </div>
         </div>

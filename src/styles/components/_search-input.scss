@@ -5,38 +5,6 @@
   @media (max-width: $br1) {
     min-width: 150px;
   }
-
-  svg {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-    display: block;
-    width: vw(20);
-    height: vw(20);
-
-    &:first-of-type {
-      left: vw(14);
-
-      @media (max-width: $br1) {
-        left: 8px;
-      }
-    }
-
-    &:last-of-type {
-      right: vw(14);
-      cursor: pointer;
-
-      @media (max-width: $br1) {
-        right: 8px;
-      }
-    }
-
-    @media (max-width: $br1) {
-      height: 14px;
-      width: 14px;
-    }
-  }
 }
 
 .input {
@@ -65,5 +33,50 @@
     padding-left: 26px;
     padding-right: 26px;
     font-size: 14px;
+  }
+}
+
+.input__close-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: vw(14);
+  cursor: pointer;
+
+  svg {
+    display: block;
+    width: vw(20);
+    height: vw(20);
+
+    @media (max-width: $br1) {
+      height: 14px;
+      width: 14px;
+    }
+  }
+
+  @media (max-width: $br1) {
+    right: 8px;
+  }
+}
+
+.input__search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: vw(14);
+
+  svg {
+    display: block;
+    width: vw(20);
+    height: vw(20);
+
+    @media (max-width: $br1) {
+      height: 14px;
+      width: 14px;
+    }
+  }
+
+  @media (max-width: $br1) {
+    left: 8px;
   }
 }
