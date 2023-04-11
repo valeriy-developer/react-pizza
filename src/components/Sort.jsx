@@ -1,33 +1,38 @@
 import { useState } from 'react'
 import IconArrowUp from './icons/IconArrowUp'
 import IconArrowDown from './icons/IconArrowDown'
+import { useSelector, useDispatch } from 'react-redux'
+import { setSortItems } from '../redux/slices/filterSlice.js'
 
-const Sort = ({ sortValue, onChangeSort }) => {
+export const sortList = [
+  {
+    name: 'популярністю',
+    sortProperty: 'rating',
+  },
+  {
+    name: 'ціною',
+    sortProperty: 'price',
+  },
+  {
+    name: 'алфавітом',
+    sortProperty: 'title',
+  },
+]
+
+const Sort = () => {
   const [popupOpened, setPopupOpened] = useState(false)
+  const dispatch = useDispatch()
+  const sort = useSelector(state => state.filter.sort)
 
   const openPopup = () => {
     setPopupOpened(!popupOpened)
   }
 
-  const sortItems = [
-    {
-      name: 'ціною',
-      sort: 'price',
-    },
-    {
-      name: 'алфавітом',
-      sort: 'title',
-    },
-    {
-      name: 'популярністю',
-      sort: 'rating',
-    },
-  ]
-
   const selectActiveItems = id => {
-    onChangeSort(id)
+    dispatch(setSortItems(id))
     setPopupOpened(false)
   }
+
   return (
     <>
       <div className="sort">
@@ -37,17 +42,17 @@ const Sort = ({ sortValue, onChangeSort }) => {
           </span>
           <p className="sort__show-text">
             Сортування за:
-            <span className="sort__name">{sortValue.name}</span>
+            <span className="sort__name">{sort.name}</span>
           </p>
         </button>
         {popupOpened && (
           <ul className="sort__popup">
-            {sortItems.map((obj, idx) => {
+            {sortList.map((obj, idx) => {
               return (
                 <li
                   key={idx}
                   className={
-                    sortValue.sort === obj.sort
+                    sort.sortProperty === obj.sortProperty
                       ? 'sort__item sort__item--active'
                       : 'sort__item'
                   }

@@ -8,31 +8,50 @@ import {
   limit,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
+import qs from 'qs'
+import { useNavigate } from 'react-router-dom'
 import Filter from '../components/Filter'
 import Item from '../components/Item'
 import Sort from '../components/Sort'
 import SkeletonItem from '../components/SkeletonItem'
+import { useSelector, useDispatch } from 'react-redux'
+import { setActiveFilter, setFitlers } from '../redux/slices/filterSlice.js'
+import { sortList } from '../components/Sort'
 
-const Home = ({ searchValue, setSearchValue }) => {
+const Home = ({ searchValue }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { activeFilter, sort } = useSelector(state => state.filter)
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [sortItems, setSortItems] = useState({
-    name: 'популярністю',
-    sort: 'rating',
-  })
-  const [activeFilter, setActiveFilter] = useState(0)
-
   const collectionRef = collection(database, 'items')
+
+  const onClickFilter = id => {
+    dispatch(setActiveFilter(id))
+  }
+
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1))
+
+      const sort = sortList.find(
+        obj => obj.sortProperty === params.sortProperty
+      )
+
+      dispatch(setFitlers({ ...params, sort }))
+    }
+  }, [])
 
   useEffect(() => {
     setIsLoading(true)
     const q =
       activeFilter === 0
-        ? query(collectionRef, orderBy(sortItems.sort), limit(5))
+        ? query(collectionRef, orderBy(sort.sortProperty), limit(5))
         : query(
             collectionRef,
             where('category', '==', activeFilter),
-            orderBy(sortItems.sort),
+            orderBy(sort.sortProperty),
+            // where('title', '>=', 'по-азіатськи'),
             limit(5)
           )
 
@@ -43,7 +62,16 @@ const Home = ({ searchValue, setSearchValue }) => {
     })
 
     window.scrollTo(0, 0)
-  }, [activeFilter, sortItems, searchValue])
+  }, [activeFilter, sort, searchValue])
+
+  useEffect(() => {
+    const queryString = qs.stringify({
+      sortProperty: sort.sortProperty,
+      activeFilter,
+    })
+
+    navigate(`?${queryString}`)
+  }, [activeFilter, sort])
 
   return (
     <>
@@ -54,11 +82,11 @@ const Home = ({ searchValue, setSearchValue }) => {
             <div className="home-1__filter-wrapper">
               <Filter
                 filterValue={activeFilter}
-                onClickCategory={i => setActiveFilter(i)}
+                onClickCategory={onClickFilter}
               />
             </div>
             <div className="home-1__sort-wrapper">
-              <Sort sortValue={sortItems} onChangeSort={i => setSortItems(i)} />
+              <Sort />
             </div>
           </div>
           <div className="home-1__content">
@@ -75,9 +103,7 @@ const Home = ({ searchValue, setSearchValue }) => {
                       ) {
                         return true
                       }
-                      return false
                     })
-
                     .map(el => {
                       return <Item key={el.id} {...el} />
                     })}
