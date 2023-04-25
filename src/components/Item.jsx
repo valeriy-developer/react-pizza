@@ -1,5 +1,4 @@
 import IconPlus from './icons/IconPlus'
-import { v4 as uuidv4 } from 'uuid'
 import { useState } from 'react'
 
 const Item = ({ title, price, imgUrl, type, size }) => {
@@ -22,7 +21,7 @@ const Item = ({ title, price, imgUrl, type, size }) => {
                       ? 'item__dough  item__dough--active'
                       : 'item__dough'
                   }
-                  key={uuidv4()}
+                  key={idx}
                   onClick={() => setActiveDough(idx)}
                 >
                   {doughs[typeNum]}
@@ -39,7 +38,7 @@ const Item = ({ title, price, imgUrl, type, size }) => {
                       ? 'item__size item__size--active'
                       : 'item__size'
                   }
-                  key={uuidv4()}
+                  key={idx}
                   onClick={() => setActiveSize(idx)}
                 >
                   {sizeNum} см.
