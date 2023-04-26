@@ -4,7 +4,7 @@ import Item from '../components/Item'
 import Sort from '../components/Sort'
 import SkeletonItem from '../components/SkeletonItem'
 
-const Home = () => {
+const Home = ({ searchValue }) => {
   const [items, setItems] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [categoryId, setCategoryId] = useState(0)
@@ -18,7 +18,9 @@ const Home = () => {
     fetch(
       `http://localhost:5001/api/pizzas?${
         categoryId > 0 ? `filter=${categoryId}` : ''
-      }&sort=${sortType.sortProperty}`
+      }&sort=${sortType.sortProperty}${
+        searchValue ? `&search=${searchValue}` : ''
+      }`
     )
       .then(res => res.json())
       .then(data => {
@@ -27,7 +29,7 @@ const Home = () => {
       })
 
     window.scrollTo(0, 0)
-  }, [categoryId, sortType])
+  }, [categoryId, sortType, searchValue])
 
   return (
     <>
