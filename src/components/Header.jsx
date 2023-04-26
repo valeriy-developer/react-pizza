@@ -7,7 +7,7 @@ const Header = ({ searchValue, setSearchValue }) => {
     <header className="container header">
       <div className="header__wrapper">
         <Link className="header__left-link" to="/">
-          <img className="header__logo" src="/images/logo.jpg" alt="Logo" />
+          <img className="header__logo" src="images/logo.jpg" alt="Logo" />
           <div className="header__text">
             <h1 className="header__title">REACT PIZZA</h1>
             <p className="header__subtitle">Найсмачніша піца у всесвіті</p>

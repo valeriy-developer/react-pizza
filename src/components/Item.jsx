@@ -16,12 +16,12 @@ const Item = ({ title, price, imgUrl, type, size }) => {
             {type.map((typeNum, idx) => {
               return (
                 <li
+                  key={idx}
                   className={
                     activeDough === idx
                       ? 'item__dough  item__dough--active'
                       : 'item__dough'
                   }
-                  key={idx}
                   onClick={() => setActiveDough(idx)}
                 >
                   {doughs[typeNum]}

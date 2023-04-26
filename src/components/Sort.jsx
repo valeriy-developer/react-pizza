@@ -17,14 +17,15 @@ export const sortList = [
   },
 ]
 
-const Sort = () => {
+const Sort = ({ type, onClickSort }) => {
   const [popupOpened, setPopupOpened] = useState(false)
 
   const openPopup = () => {
     setPopupOpened(!popupOpened)
   }
 
-  const selectActiveItems = () => {
+  const selectActiveItems = obj => {
+    onClickSort(obj)
     setPopupOpened(false)
   }
 
@@ -37,7 +38,7 @@ const Sort = () => {
           </span>
           <p className="sort__show-text">
             Сортування за:
-            <span className="sort__name">популярністю</span>
+            <span className="sort__name">{type.name}</span>
           </p>
         </button>
         {popupOpened && (
@@ -46,8 +47,12 @@ const Sort = () => {
               return (
                 <li
                   key={idx}
-                  className="sort__item"
                   onClick={() => selectActiveItems(obj)}
+                  className={
+                    obj.sortProperty === type.sortProperty
+                      ? 'sort__item sort__item--active'
+                      : 'sort__item'
+                  }
                 >
                   <p className="sort__text">{obj.name}</p>
                 </li>

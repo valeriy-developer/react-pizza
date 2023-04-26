@@ -1,4 +1,4 @@
-const Filter = ({ filterValue, onClickCategory }) => {
+const Filter = ({ value, onClickCategory }) => {
   const categories = [
     'Усі',
     "М'ясні",
@@ -14,13 +14,11 @@ const Filter = ({ filterValue, onClickCategory }) => {
         {categories.map((el, idx) => {
           return (
             <li
+              key={idx}
               onClick={() => onClickCategory(idx)}
               className={
-                filterValue === idx
-                  ? 'filter__li filter__li--active'
-                  : 'filter__li'
+                value === idx ? 'filter__li filter__li--active' : 'filter__li'
               }
-              key={idx}
             >
               <p className="filter__text">{el}</p>
             </li>

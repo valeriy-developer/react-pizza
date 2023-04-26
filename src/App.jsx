@@ -8,17 +8,6 @@ import NotFound from './pages/NotFound'
 function App() {
   const [inputValue, setInputValue] = useState('')
 
-  // const fetchData = async () => {
-  //   const res = await fetch('http://localhost:5001/api/pizzas')
-  //   const data = await res.json()
-
-  //   setPizzas(data)
-  // }
-
-  // useEffect(() => {
-  //   fetchData()
-  // }, [])
-
   return (
     <div className="app">
       <div className="wrapper">

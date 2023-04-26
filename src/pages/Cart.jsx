@@ -25,7 +25,7 @@ const Cart = () => {
           <div className="cart__item-details">
             <img
               className="ratio-img cart__item-img"
-              src="/images/items/1.png"
+              src="images/items/1.png"
               alt="Pizza"
             />
             <div className="cart__text-wrapper">
@@ -53,7 +53,7 @@ const Cart = () => {
           <div className="cart__item-details">
             <img
               className="ratio-img cart__item-img"
-              src="/images/items/2.png"
+              src="images/items/2.png"
               alt="Pizza"
             />
             <div className="cart__text-wrapper">
