@@ -6,6 +6,7 @@ import SkeletonItem from '../components/SkeletonItem'
 import Pagination from '../components/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCategoryId } from '../redux/slices/filterSlice'
+import axios from 'axios'
 
 const Home = ({ searchValue }) => {
   const dispatch = useDispatch()
@@ -20,15 +21,15 @@ const Home = ({ searchValue }) => {
 
   useEffect(() => {
     setLoading(true)
-    fetch(
-      `http://localhost:5001/api/pizzas?limit=${limit}&page=${currentPage}${
-        searchValue ? `&search=${searchValue}` : ''
-      }${categoryId > 0 ? `&filter=${categoryId}` : ''}&sort=${sortType}`
-    )
-      .then(res => res.json())
-      .then(data => {
-        setItems(data.pizzas)
-        setTotalPages(data.totalPages)
+    axios
+      .get(
+        `http://localhost:5001/api/pizzas?limit=${limit}&page=${currentPage}${
+          searchValue ? `&search=${searchValue}` : ''
+        }${categoryId > 0 ? `&filter=${categoryId}` : ''}&sort=${sortType}`
+      )
+      .then(res => {
+        setItems(res.data.pizzas)
+        setTotalPages(res.data.totalPages)
         setLoading(false)
       })
 
