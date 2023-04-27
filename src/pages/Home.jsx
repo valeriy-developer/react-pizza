@@ -4,15 +4,16 @@ import Item from '../components/Item'
 import Sort from '../components/Sort'
 import SkeletonItem from '../components/SkeletonItem'
 import Pagination from '../components/Pagination'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCategoryId } from '../redux/slices/filterSlice'
 
 const Home = ({ searchValue }) => {
+  const dispatch = useDispatch()
+  const { categoryId, sort } = useSelector(state => state.filter)
+  const sortType = sort.sortProperty
+
   const [items, setItems] = useState([])
   const [isLoading, setLoading] = useState(true)
-  const [categoryId, setCategoryId] = useState(0)
-  const [sortType, setSortType] = useState({
-    name: 'популярністю',
-    sortProperty: 'rating',
-  })
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const limit = 4
@@ -22,9 +23,7 @@ const Home = ({ searchValue }) => {
     fetch(
       `http://localhost:5001/api/pizzas?limit=${limit}&page=${currentPage}${
         searchValue ? `&search=${searchValue}` : ''
-      }${categoryId > 0 ? `&filter=${categoryId}` : ''}&sort=${
-        sortType.sortProperty
-      }`
+      }${categoryId > 0 ? `&filter=${categoryId}` : ''}&sort=${sortType}`
     )
       .then(res => res.json())
       .then(data => {
@@ -45,11 +44,11 @@ const Home = ({ searchValue }) => {
             <div className="home-1__filter-wrapper">
               <Filter
                 value={categoryId}
-                onClickCategory={id => setCategoryId(id)}
+                onClickCategory={id => dispatch(setCategoryId(id))}
               />
             </div>
             <div className="home-1__sort-wrapper">
-              <Sort type={sortType} onClickSort={id => setSortType(id)} />
+              <Sort />
             </div>
           </div>
           <div className="home-1__content">

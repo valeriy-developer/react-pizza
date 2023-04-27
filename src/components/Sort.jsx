@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import IconArrowUp from './icons/IconArrowUp'
 import IconArrowDown from './icons/IconArrowDown'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSort } from '../redux/slices/filterSlice'
 
 export const sortList = [
   {
@@ -17,7 +19,9 @@ export const sortList = [
   },
 ]
 
-const Sort = ({ type, onClickSort }) => {
+const Sort = () => {
+  const dispatch = useDispatch()
+  const sort = useSelector(state => state.filter.sort)
   const [popupOpened, setPopupOpened] = useState(false)
 
   const openPopup = () => {
@@ -25,7 +29,7 @@ const Sort = ({ type, onClickSort }) => {
   }
 
   const selectActiveItems = obj => {
-    onClickSort(obj)
+    dispatch(setSort(obj))
     setPopupOpened(false)
   }
 
@@ -38,7 +42,7 @@ const Sort = ({ type, onClickSort }) => {
           </span>
           <p className="sort__show-text">
             Сортування за:
-            <span className="sort__name">{type.name}</span>
+            <span className="sort__name">{sort.name}</span>
           </p>
         </button>
         {popupOpened && (
@@ -49,7 +53,7 @@ const Sort = ({ type, onClickSort }) => {
                   key={idx}
                   onClick={() => selectActiveItems(obj)}
                   className={
-                    obj.sortProperty === type.sortProperty
+                    obj.sortProperty === sort.sortProperty
                       ? 'sort__item sort__item--active'
                       : 'sort__item'
                   }
