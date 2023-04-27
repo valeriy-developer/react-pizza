@@ -5,18 +5,21 @@ import Sort from '../components/Sort'
 import SkeletonItem from '../components/SkeletonItem'
 import Pagination from '../components/Pagination'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCategoryId } from '../redux/slices/filterSlice'
+import {
+  setCategoryId,
+  setCurrentPage,
+  setTotalPages,
+} from '../redux/slices/filterSlice'
 import axios from 'axios'
 
 const Home = ({ searchValue }) => {
   const dispatch = useDispatch()
-  const { categoryId, sort } = useSelector(state => state.filter)
+  const { categoryId, sort, currentPage, totalPages } = useSelector(
+    state => state.filter
+  )
   const sortType = sort.sortProperty
-
   const [items, setItems] = useState([])
   const [isLoading, setLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(0)
   const limit = 4
 
   useEffect(() => {
@@ -29,7 +32,7 @@ const Home = ({ searchValue }) => {
       )
       .then(res => {
         setItems(res.data.pizzas)
-        setTotalPages(res.data.totalPages)
+        dispatch(setTotalPages(res.data.totalPages))
         setLoading(false)
       })
 
@@ -64,9 +67,10 @@ const Home = ({ searchValue }) => {
                   })}
             </div>
             <Pagination
-              onChangePage={number => setCurrentPage(number)}
+              onChangePage={number => dispatch(setCurrentPage(number))}
               totalPages={totalPages}
               limit={limit}
+              currentPage={currentPage}
             />
           </div>
         </div>

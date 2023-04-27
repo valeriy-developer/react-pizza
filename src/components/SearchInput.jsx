@@ -1,20 +1,30 @@
-import { useContext, useRef } from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
 import IconSearch from './icons/IconSearch'
 import IconSearchClear from './icons/IconSearchClear'
 import { SearchContext } from '../App'
+import debounce from 'lodash.debounce'
 
 const SearchInput = () => {
-  const { inputValue, setInputValue } = useContext(SearchContext)
-
+  const [value, setValue] = useState('')
+  const { setInputValue } = useContext(SearchContext)
   const inputRef = useRef()
+
+  const updateSearchValue = useCallback(
+    debounce(str => {
+      setInputValue(str)
+    }, 600),
+    []
+  )
 
   const onCloseInput = () => {
     setInputValue('')
+    setValue('')
     inputRef.current.focus()
   }
 
   const onChangeInput = e => {
-    setInputValue(e.target.value)
+    setValue(e.target.value)
+    updateSearchValue(e.target.value)
   }
 
   return (
@@ -24,13 +34,13 @@ const SearchInput = () => {
       </div>
       <input
         ref={inputRef}
-        value={inputValue}
+        value={value}
         onInput={onChangeInput}
         type="text"
         className="input"
         placeholder="Пошук піци..."
       />
-      {inputValue && (
+      {value && (
         <div onClick={onCloseInput} className="input__close-icon">
           <IconSearchClear />
         </div>
