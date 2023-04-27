@@ -3,6 +3,7 @@ import Filter from '../components/Filter'
 import Item from '../components/Item'
 import Sort from '../components/Sort'
 import SkeletonItem from '../components/SkeletonItem'
+import Pagination from '../components/Pagination'
 
 const Home = ({ searchValue }) => {
   const [items, setItems] = useState([])
@@ -12,24 +13,28 @@ const Home = ({ searchValue }) => {
     name: 'популярністю',
     sortProperty: 'rating',
   })
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
+  const limit = 4
 
   useEffect(() => {
     setLoading(true)
     fetch(
-      `http://localhost:5001/api/pizzas?${
-        categoryId > 0 ? `filter=${categoryId}` : ''
-      }&sort=${sortType.sortProperty}${
+      `http://localhost:5001/api/pizzas?limit=${limit}&page=${currentPage}${
         searchValue ? `&search=${searchValue}` : ''
+      }${categoryId > 0 ? `&filter=${categoryId}` : ''}&sort=${
+        sortType.sortProperty
       }`
     )
       .then(res => res.json())
       .then(data => {
-        setItems(data)
+        setItems(data.pizzas)
+        setTotalPages(data.totalPages)
         setLoading(false)
       })
 
     window.scrollTo(0, 0)
-  }, [categoryId, sortType, searchValue])
+  }, [categoryId, sortType, searchValue, currentPage])
 
   return (
     <>
@@ -58,6 +63,11 @@ const Home = ({ searchValue }) => {
                     return <Item key={id} {...el} />
                   })}
             </div>
+            <Pagination
+              onChangePage={number => setCurrentPage(number)}
+              totalPages={totalPages}
+              limit={limit}
+            />
           </div>
         </div>
       </section>

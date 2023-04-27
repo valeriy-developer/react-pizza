@@ -1,17 +1,20 @@
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import IconSearch from './icons/IconSearch'
 import IconSearchClear from './icons/IconSearchClear'
+import { SearchContext } from '../App'
 
-const SearchInput = ({ searchValue, setSearchValue }) => {
+const SearchInput = () => {
+  const { inputValue, setInputValue } = useContext(SearchContext)
+
   const inputRef = useRef()
 
   const onCloseInput = () => {
-    setSearchValue('')
+    setInputValue('')
     inputRef.current.focus()
   }
 
   const onChangeInput = e => {
-    setSearchValue(e.target.value)
+    setInputValue(e.target.value)
   }
 
   return (
@@ -21,13 +24,13 @@ const SearchInput = ({ searchValue, setSearchValue }) => {
       </div>
       <input
         ref={inputRef}
-        value={searchValue}
+        value={inputValue}
         onInput={onChangeInput}
         type="text"
         className="input"
         placeholder="Пошук піци..."
       />
-      {searchValue && (
+      {inputValue && (
         <div onClick={onCloseInput} className="input__close-icon">
           <IconSearchClear />
         </div>

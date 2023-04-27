@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import IconCart from './icons/IconCart'
 import SearchInput from './SearchInput'
 
-const Header = ({ searchValue, setSearchValue }) => {
+const Header = () => {
   return (
     <header className="container header">
       <div className="header__wrapper">
@@ -13,10 +13,7 @@ const Header = ({ searchValue, setSearchValue }) => {
             <p className="header__subtitle">Найсмачніша піца у всесвіті</p>
           </div>
         </Link>
-        <SearchInput
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
+        <SearchInput />
         <Link className="header__right-link" to="/cart">
           <p className="header__price">520 грн.</p>
           <div className="heder__line"></div>
