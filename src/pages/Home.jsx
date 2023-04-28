@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Filter from '../components/Filter'
 import Item from '../components/Item'
 import Sort from '../components/Sort'
@@ -8,12 +8,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   setCategoryId,
   setCurrentPage,
+  setFilters,
   setTotalPages,
 } from '../redux/slices/filterSlice'
 import axios from 'axios'
+import qs from 'qs'
+import { useNavigate } from 'react-router-dom'
+import { sortList } from '../components/Sort'
 
 const Home = ({ searchValue }) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const isSearch = useRef(false)
+  const isMounted = useRef(false)
+
   const { categoryId, sort, currentPage, totalPages } = useSelector(
     state => state.filter
   )
@@ -22,7 +30,7 @@ const Home = ({ searchValue }) => {
   const [isLoading, setLoading] = useState(true)
   const limit = 4
 
-  useEffect(() => {
+  const fetchPizzas = () => {
     setLoading(true)
     axios
       .get(
@@ -35,8 +43,39 @@ const Home = ({ searchValue }) => {
         dispatch(setTotalPages(res.data.totalPages))
         setLoading(false)
       })
+  }
 
+  useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortType,
+        categoryId,
+        currentPage,
+      })
+
+      navigate(`?${queryString}`)
+    }
+
+    isMounted.current = true
+  }, [categoryId, sortType, currentPage])
+
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1))
+      const sort = sortList.find(obj => obj.sortProperty === params.sortType)
+      dispatch(setFilters({ ...params, sort }))
+      isSearch.current = true
+    }
+  }, [])
+
+  useEffect(() => {
     window.scrollTo(0, 0)
+
+    if (!isSearch.current) {
+      fetchPizzas()
+    }
+
+    isSearch.current = false
   }, [categoryId, sortType, searchValue, currentPage])
 
   return (
@@ -70,7 +109,6 @@ const Home = ({ searchValue }) => {
               onChangePage={number => dispatch(setCurrentPage(number))}
               totalPages={totalPages}
               limit={limit}
-              currentPage={currentPage}
             />
           </div>
         </div>
