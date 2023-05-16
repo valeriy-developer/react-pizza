@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import IconArrowUp from './icons/IconArrowUp'
 import IconArrowDown from './icons/IconArrowDown'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,7 @@ const Sort = () => {
   const dispatch = useDispatch()
   const sort = useSelector(state => state.filter.sort)
   const [popupOpened, setPopupOpened] = useState(false)
+  const sortRef = useRef()
 
   const openPopup = () => {
     setPopupOpened(!popupOpened)
@@ -33,9 +34,21 @@ const Sort = () => {
     setPopupOpened(false)
   }
 
+  useEffect(() => {
+    const outsideClick = e => {
+      !e.composedPath().includes(sortRef.current) ? setPopupOpened(false) : null
+    }
+
+    document.body.addEventListener('click', outsideClick)
+
+    return () => {
+      document.body.removeEventListener('click', outsideClick)
+    }
+  }, [])
+
   return (
     <>
-      <div className="sort">
+      <div ref={sortRef} className="sort">
         <button onClick={openPopup} className="sort__btn">
           <span className="sort__arrow">
             {popupOpened ? <IconArrowUp /> : <IconArrowDown />}

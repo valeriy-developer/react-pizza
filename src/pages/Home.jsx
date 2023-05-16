@@ -30,19 +30,24 @@ const Home = ({ searchValue }) => {
   const [isLoading, setLoading] = useState(true)
   const limit = 4
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setLoading(true)
-    axios
-      .get(
+    try {
+      const res = await axios.get(
         `http://localhost:5001/api/pizzas?limit=${limit}&page=${currentPage}${
           searchValue ? `&search=${searchValue}` : ''
         }${categoryId > 0 ? `&filter=${categoryId}` : ''}&sort=${sortType}`
       )
-      .then(res => {
-        setItems(res.data.pizzas)
-        dispatch(setTotalPages(res.data.totalPages))
-        setLoading(false)
-      })
+
+      setItems(res.data.pizzas)
+      dispatch(setTotalPages(res.data.totalPages))
+      setLoading(false)
+    } catch (e) {
+      setLoading(false)
+      alert('Помилка при завантаженні піц')
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
