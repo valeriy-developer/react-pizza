@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Filter from '../components/Filter'
 import Item from '../components/Item'
 import Sort from '../components/Sort'
@@ -11,43 +11,37 @@ import {
   setFilters,
   setTotalPages,
 } from '../redux/slices/filterSlice'
-import axios from 'axios'
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 import { sortList } from '../components/Sort'
+import { fetchPizzas } from '../redux/slices/pizzaSlice'
+import ErrorPage from '../components/ErrorPage'
 
-const Home = ({ searchValue }) => {
+const Home = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
-  const { categoryId, sort, currentPage, totalPages } = useSelector(
-    state => state.filter
-  )
+  const { items, status } = useSelector(state => state.pizza)
+  const { categoryId, sort, currentPage, totalPages, searchValue } =
+    useSelector(state => state.filter)
+
   const sortType = sort.sortProperty
-  const [items, setItems] = useState([])
-  const [isLoading, setLoading] = useState(true)
   const limit = 4
 
-  const fetchPizzas = async () => {
-    setLoading(true)
-    try {
-      const res = await axios.get(
-        `http://localhost:5001/api/pizzas?limit=${limit}&page=${currentPage}${
-          searchValue ? `&search=${searchValue}` : ''
-        }${categoryId > 0 ? `&filter=${categoryId}` : ''}&sort=${sortType}`
-      )
+  const getPizzas = async () => {
+    dispatch(
+      fetchPizzas({
+        limit,
+        currentPage,
+        searchValue,
+        categoryId,
+        sortType,
+      })
+    )
 
-      setItems(res.data.pizzas)
-      dispatch(setTotalPages(res.data.totalPages))
-      setLoading(false)
-    } catch (e) {
-      setLoading(false)
-      alert('Помилка при завантаженні піц')
-    } finally {
-      setLoading(false)
-    }
+    dispatch(setTotalPages(totalPages))
   }
 
   useEffect(() => {
@@ -77,11 +71,19 @@ const Home = ({ searchValue }) => {
     window.scrollTo(0, 0)
 
     if (!isSearch.current) {
-      fetchPizzas()
+      getPizzas()
     }
 
     isSearch.current = false
   }, [categoryId, sortType, searchValue, currentPage])
+
+  const pizzas = items.map((el, id) => {
+    return <Item key={id} {...el} />
+  })
+
+  const skeletons = [...new Array(10)].map((el, idx) => {
+    return <SkeletonItem key={idx} />
+  })
 
   return (
     <>
@@ -102,13 +104,13 @@ const Home = ({ searchValue }) => {
           <div className="home-1__content">
             <h2 className="home-1__title">Усі піци</h2>
             <div className="grid home-1__items-wrapper">
-              {isLoading
-                ? [...new Array(10)].map((el, idx) => {
-                    return <SkeletonItem key={idx} />
-                  })
-                : items.map((el, id) => {
-                    return <Item key={id} {...el} />
-                  })}
+              {status === 'error' ? (
+                <ErrorPage />
+              ) : status === 'loading' ? (
+                skeletons
+              ) : (
+                pizzas
+              )}
             </div>
             <Pagination
               onChangePage={number => dispatch(setCurrentPage(number))}

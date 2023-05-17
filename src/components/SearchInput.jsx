@@ -1,23 +1,24 @@
-import { useCallback, useContext, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import IconSearch from './icons/IconSearch'
 import IconSearchClear from './icons/IconSearchClear'
-import { SearchContext } from '../App'
 import debounce from 'lodash.debounce'
+import { useDispatch } from 'react-redux'
+import { setSearchValue } from '../redux/slices/filterSlice'
 
 const SearchInput = () => {
-  const [value, setValue] = useState('')
-  const { setInputValue } = useContext(SearchContext)
   const inputRef = useRef()
+  const dispatch = useDispatch()
+  const [value, setValue] = useState('')
 
   const updateSearchValue = useCallback(
     debounce(str => {
-      setInputValue(str)
+      dispatch(setSearchValue(str))
     }, 600),
     []
   )
 
   const onCloseInput = () => {
-    setInputValue('')
+    dispatch(setSearchValue(''))
     setValue('')
     inputRef.current.focus()
   }
