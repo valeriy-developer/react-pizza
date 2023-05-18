@@ -31,7 +31,7 @@ const Home = () => {
   const limit = 4
 
   const getPizzas = async () => {
-    dispatch(
+    const data = await dispatch(
       fetchPizzas({
         limit,
         currentPage,
@@ -41,7 +41,7 @@ const Home = () => {
       })
     )
 
-    dispatch(setTotalPages(totalPages))
+    dispatch(setTotalPages(data.payload.totalPages))
   }
 
   useEffect(() => {
@@ -50,6 +50,7 @@ const Home = () => {
         sortType,
         categoryId,
         currentPage,
+        limit,
       })
 
       navigate(`?${queryString}`)
@@ -70,9 +71,7 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
 
-    if (!isSearch.current) {
-      getPizzas()
-    }
+    getPizzas()
 
     isSearch.current = false
   }, [categoryId, sortType, searchValue, currentPage])

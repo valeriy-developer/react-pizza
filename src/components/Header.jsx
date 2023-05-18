@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import IconCart from './icons/IconCart'
 import SearchInput from './SearchInput'
 import { useSelector } from 'react-redux'
@@ -8,6 +8,8 @@ const Header = () => {
   const totalCount = items.reduce((sum, item) => {
     return sum + item.count
   }, 0)
+
+  const { pathname } = useLocation()
 
   return (
     <header className="container header">
@@ -20,14 +22,16 @@ const Header = () => {
           </div>
         </Link>
         <SearchInput />
-        <Link className="header__right-link" to="/cart">
-          <p className="header__price">{totalPrice} грн.</p>
-          <div className="heder__line"></div>
-          <div className="header__cart-wrapper">
-            <IconCart />
-            <p className="header__count-item">{totalCount}</p>
-          </div>
-        </Link>
+        {pathname !== '/cart' && (
+          <Link className="header__right-link" to="/cart">
+            <p className="header__price">{totalPrice} грн.</p>
+            <div className="heder__line"></div>
+            <div className="header__cart-wrapper">
+              <IconCart />
+              <p className="header__count-item">{totalCount}</p>
+            </div>
+          </Link>
+        )}
       </div>
     </header>
   )
