@@ -1,4 +1,4 @@
-const IconBasket = () => {
+const IconBasket: React.FC = () => {
   return (
     <svg
       width="20"

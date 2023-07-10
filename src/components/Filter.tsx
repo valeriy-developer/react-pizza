@@ -1,4 +1,9 @@
-const Filter = ({ value, onClickCategory }) => {
+interface Props {
+  value: number
+  onClickCategory: (id: number) => void
+}
+
+const Filter = ({ value, onClickCategory }: Props) => {
   const categories = [
     'Усі',
     "М'ясні",
@@ -11,7 +16,7 @@ const Filter = ({ value, onClickCategory }) => {
   return (
     <>
       <ul className="filter">
-        {categories.map((el, idx) => {
+        {categories.map((el: string, idx: number) => {
           return (
             <li
               key={idx}

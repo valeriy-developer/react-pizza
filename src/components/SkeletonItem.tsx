@@ -1,4 +1,4 @@
-const SkeletonItem = () => {
+const SkeletonItem: React.FC = () => {
   return (
     <div className="skeleton-item">
       <div className="ratio-img skeleton-item__img" />

@@ -10,9 +10,9 @@ import CartEmpty from '../components/CartEmpty'
 
 const Cart = () => {
   const dispatch = useDispatch()
-  const { items, totalPrice } = useSelector(state => state.cart)
+  const { items, totalPrice } = useSelector((state: any) => state.cart)
 
-  const totalCount = items.reduce((sum, item) => {
+  const totalCount = items.reduce((sum: number, item: any) => {
     return sum + item.count
   }, 0)
 
@@ -39,7 +39,7 @@ const Cart = () => {
         </button>
       </div>
       <ul className="cart__item-list">
-        {items.map((el, idx) => {
+        {items.map((el: any, idx: number) => {
           return <CartItem key={idx} {...el} />
         })}
       </ul>

@@ -1,4 +1,4 @@
-const IconAmountPlus = () => {
+const IconAmountPlus: React.FC = () => {
   return (
     <svg
       width="10"

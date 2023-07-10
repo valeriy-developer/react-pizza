@@ -1,4 +1,4 @@
-const IconEmptyCart = () => {
+const IconEmptyCart: React.FC = () => {
   return (
     <svg
       width="300"

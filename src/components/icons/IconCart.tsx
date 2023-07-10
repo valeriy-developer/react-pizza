@@ -1,4 +1,4 @@
-const IconCart = () => {
+const IconCart: React.FC = () => {
   return (
     <>
       <svg

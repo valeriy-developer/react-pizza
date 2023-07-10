@@ -4,7 +4,7 @@ import IconArrowDown from './icons/IconArrowDown'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSort } from '../redux/slices/filterSlice'
 
-export const sortList = [
+export const sortList: { name: string; sortProperty: string }[] = [
   {
     name: 'популярністю',
     sortProperty: 'rating',
@@ -19,23 +19,23 @@ export const sortList = [
   },
 ]
 
-const Sort = () => {
+const Sort: React.FC = () => {
   const dispatch = useDispatch()
-  const sort = useSelector(state => state.filter.sort)
+  const sort = useSelector((state: any) => state.filter.sort)
   const [popupOpened, setPopupOpened] = useState(false)
-  const sortRef = useRef()
+  const sortRef = useRef<HTMLDivElement>(null)
 
   const openPopup = () => {
     setPopupOpened(!popupOpened)
   }
 
-  const selectActiveItems = obj => {
+  const selectActiveItems = (obj: any) => {
     dispatch(setSort(obj))
     setPopupOpened(false)
   }
 
   useEffect(() => {
-    const outsideClick = e => {
+    const outsideClick = (e: any) => {
       !e.composedPath().includes(sortRef.current) ? setPopupOpened(false) : null
     }
 

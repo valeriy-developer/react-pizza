@@ -1,4 +1,4 @@
-const NotFoundBlock = () => {
+const NotFoundBlock: React.FC = () => {
   return (
     <div className="not-found">
       <div className="not-found__img">😕</div>

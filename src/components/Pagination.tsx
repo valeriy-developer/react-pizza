@@ -1,6 +1,12 @@
 import ReactPaginate from 'react-paginate'
 
-const Pagination = ({ onChangePage, totalPages, limit }) => {
+interface Props {
+  onChangePage: (selectedPage: number) => void
+  totalPages: number
+  limit: number
+}
+
+const Pagination = ({ onChangePage, totalPages, limit }: Props) => {
   return (
     <ReactPaginate
       className="pagination"

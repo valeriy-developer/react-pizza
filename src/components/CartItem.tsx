@@ -4,12 +4,23 @@ import IconAmountPlus from './icons/IconAmountPlus'
 import IconRemove from './icons/IconRemove'
 import { minusItem, plusItem, removeItem } from '../redux/slices/cartSlice'
 
-const CartItem = ({ id, imgUrl, title, count, price, type, size }) => {
+interface Props {
+  id: string
+  imgUrl: string
+  title: string
+  count: number
+  price: number
+  type: string
+  size: string
+}
+
+const CartItem = ({ id, imgUrl, title, count, price, type, size }: Props) => {
   const dispatch = useDispatch()
 
   const onClickPlus = () => {
     dispatch(plusItem(id))
   }
+
   const onClickMinus = () => {
     count <= 0 ? null : dispatch(minusItem(id))
   }

@@ -4,8 +4,8 @@ import SearchInput from './SearchInput'
 import { useSelector } from 'react-redux'
 
 const Header = () => {
-  const { items, totalPrice } = useSelector(state => state.cart)
-  const totalCount = items.reduce((sum, item) => {
+  const { items, totalPrice } = useSelector((state: any) => state.cart)
+  const totalCount = items.reduce((sum: number, item: any) => {
     return sum + item.count
   }, 0)
 

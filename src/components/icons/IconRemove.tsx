@@ -1,4 +1,4 @@
-const IconRemove = () => {
+const IconRemove: React.FC = () => {
   return (
     <svg
       width="10"

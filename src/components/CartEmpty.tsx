@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import IconEmptyCart from './icons/IconEmptyCart'
 import Button from './Button'
+import React from 'react'
 
-const CartEmpty = () => {
+const CartEmpty: React.FC = () => {
   return (
     <div className="empty-cart">
       <div className="container empty-cart__wrapper">
@@ -11,7 +12,7 @@ const CartEmpty = () => {
           Найімовірніше, Ви не замовляли ще піцу.
           <br /> Щоб замовити піцу, перейдіть на головну сторінку.
         </p>
-        <IconEmptyCart className="empty-cart__img" />
+        <IconEmptyCart />
         <Link to="/" className="cart__back-btn">
           <Button text={'Повернутись назад'} />
         </Link>

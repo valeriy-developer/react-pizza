@@ -1,4 +1,4 @@
-const IconArrowLeft = () => {
+const IconArrowLeft: React.FC = () => {
   return (
     <svg
       width="8"

@@ -84,6 +84,11 @@ const Home = () => {
     return <SkeletonItem key={idx} />
   })
 
+  const onClickCategory = id => {
+    dispatch(setCategoryId(id))
+    dispatch(setCurrentPage(1))
+  }
+
   return (
     <>
       <section className="home-1">
@@ -93,7 +98,7 @@ const Home = () => {
             <div className="home-1__filter-wrapper">
               <Filter
                 value={categoryId}
-                onClickCategory={id => dispatch(setCategoryId(id))}
+                onClickCategory={id => onClickCategory(id)}
               />
             </div>
             <div className="home-1__sort-wrapper">

@@ -3,15 +3,24 @@ import IconPlus from './icons/IconPlus'
 import { useState } from 'react'
 import { addItem } from '../redux/slices/cartSlice'
 
-const doughs = ['Тонке', 'Традиційне']
+interface Props {
+  id: number
+  title: string
+  price: number
+  imgUrl: string
+  types: number[]
+  size: number[]
+}
 
-const Item = ({ id, title, price, imgUrl, types, size }) => {
+const doughs: string[] = ['Тонке', 'Традиційне']
+
+const Item = ({ id, title, price, imgUrl, types, size }: Props) => {
   const dispatch = useDispatch()
 
   const [activeDough, setActiveDough] = useState(0)
   const [activeSize, setActiveSize] = useState(0)
-  const cartItem = useSelector(state =>
-    state.cart.items.find(obj => obj.id === id)
+  const cartItem = useSelector((state: any) =>
+    state.cart.items.find((obj: any) => obj.id === id)
   )
   const addedCount = cartItem ? cartItem.count : 0
 
